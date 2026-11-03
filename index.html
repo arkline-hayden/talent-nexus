@@ -152,25 +152,24 @@
   svg.ph { width: 1em; height: 1em; flex: none; }
 
   /* ---------- Cover ---------- */
-  .cover { text-align: center; }
+  .cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 72px; align-items: center; }
   /* Header logo mark, as a white cut-out, above the title */
-  .cover::before {
-    content: ""; display: block; width: 64px; height: 64px; margin: 0 auto 22px;
+  .cover-left::before {
+    content: ""; display: block; width: 64px; height: 64px; margin: 0 0 24px;
     background: var(--img-mark) center / contain no-repeat;
   }
-  .cover .lede { max-width: 680px; margin-inline: auto; text-wrap: balance; }
-  .cover .sub-h { margin: 40px 0 18px; font-size: 20px; line-height: 1.3; letter-spacing: -.01em; color: var(--ink); }
-  .agenda { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: var(--gap); text-align: left; }
+  .cover .lede { max-width: 480px; text-wrap: pretty; }
+  .cover .sub-h { margin: 0 0 14px; font-size: 20px; line-height: 1.3; letter-spacing: -.01em; color: var(--ink); }
+  .agenda { display: grid; grid-auto-rows: 1fr; gap: 10px; }
   .theme {
-    display: flex; flex-direction: column; gap: 20px; min-height: 164px;
-    background: var(--card); border-radius: var(--radius); padding: var(--pad);
+    display: flex; align-items: center; gap: 22px;
+    background: var(--card); border-radius: var(--radius-md); padding: 16px var(--pad);
   }
   .theme[data-go] { cursor: pointer; transition: background-color .35s var(--ease), transform .45s var(--ease); }
-  .theme[data-go]:hover { background: var(--card-hover); transform: translateY(-3px); }
+  .theme[data-go]:hover { background: var(--card-hover); transform: translateX(4px); }
   .theme .k {
-    color: var(--ink-2); font-weight: 300; font-size: 46px; letter-spacing: -.04em; line-height: 1;
+    flex: none; width: 34px; color: var(--ink-2); font-weight: 300; font-size: 40px; letter-spacing: -.04em; line-height: 1;
   }
-  .theme > div:last-child { margin-top: auto; }
   .theme b { display: block; font-size: var(--t-title); line-height: 1.3; margin-bottom: 6px; }
   .theme span { display: block; font-size: var(--t-body); color: var(--ink-2); line-height: 1.5; text-wrap: balance; }
 
@@ -178,11 +177,11 @@
   .opp { display: flex; flex-direction: column; }
   .opp h3 { margin-top: auto; }
   .callout {
-    margin-top: var(--gap); background: var(--emphasis);
-    padding: 20px var(--pad); border-radius: var(--radius); font-size: var(--t-title); line-height: 1.5; color: var(--ink-2);
+    margin-top: 28px; background: var(--emphasis);
+    padding: 26px 30px; border-radius: var(--radius); font-size: 21px; line-height: 1.4; letter-spacing: -.01em; color: var(--ink);
   }
   .red-line { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 3px; text-underline-offset: 7px; }
-  .callout b { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .callout b { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 3px; text-underline-offset: 6px; }
 
   /* ---------- Value concept ---------- */
   .equation {
@@ -245,10 +244,7 @@
   .hub-map:has(.node[data-i="4"]:hover) .seg[data-i="4"] path,
   .hub-map:has(.node[data-i="5"]:hover) .seg[data-i="5"] path,
   .hub-map:has(.node[data-i="6"]:hover) .seg[data-i="6"] path { opacity: 1; fill: var(--accent); }
-  .ring-guide circle { fill: none; stroke: rgba(255, 255, 255, .1); stroke-width: 1; }
-  .ring-guide .ring-dot { transform-box: view-box; transform-origin: center; animation: ring-turn 24s linear infinite; }
-  .ring-guide .ring-dot circle { fill: var(--ink-2); stroke: none; }
-  @keyframes ring-turn { to { transform: rotate(360deg); } }
+  .ring-arrow { fill: none; stroke: rgba(255, 255, 255, .5); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .35s var(--ease), opacity .35s var(--ease); }
 
   .hub {
     transform: translateX(0) scale(1); transition: transform .8s var(--ease);
@@ -279,8 +275,8 @@
   .hub-map.is-focus .hub { transform: translateX(var(--shift)) scale(var(--shrink)); }
   .hub-map.is-focus .hub b { font-size: 22px; }
   .hub-map.is-focus .hub span { font-size: 14px; }
-  .hub-map.is-focus .ring-guide { opacity: 0; }
-  .ring-guide { transition: opacity .4s var(--ease); }
+  .hub-map.is-focus .ring-arrow { opacity: .3; }
+  .hub-map.is-focus .ring-arrow.is-active { opacity: 1; stroke: var(--accent); }
   .hub-map.is-focus .seg path { opacity: .28; }
   .hub-map.is-focus .seg:hover path { opacity: .7; fill: revert-layer; }
   .hub-map.is-focus .seg.is-active path { opacity: 1; fill: var(--accent); }
@@ -364,8 +360,6 @@
   .stat { display: flex; flex-direction: column; gap: 20px; background: var(--card); border-radius: var(--radius-md); padding: 20px; }
   .stat .v { font-family: var(--display); font-weight: 300; font-size: 52px; line-height: 1; letter-spacing: -.045em; color: var(--ink); }
   .stat .l { font-size: 13px; color: var(--ink-2); margin-top: auto; line-height: 1.45; }
-  .stat.tbd { background: var(--ghost); }
-  .stat.tbd .v { color: rgba(255,255,255,.28); }
 
   /* ---------- Credentials ---------- */
   .cred { display: grid; grid-template-columns: 1.45fr 1fr; gap: var(--gap); margin-top: 28px; }
@@ -388,7 +382,8 @@
   .map-row .to { color: var(--ink-3); display: grid; place-items: center; }
   .map-row .b { font-weight: 500; }
   .stat.flat { gap: 10px; background: none; padding: 0; }
-  .stat.flat .v { font-size: 44px; }
+  .stat.flat .v { display: flex; align-items: center; gap: 10px; font-size: 44px; }
+  .stat.flat .v svg { flex: none; width: 30px; height: 30px; color: var(--ink-2); }
 
   /* ---------- Path forward ---------- */
   .cs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
@@ -468,20 +463,20 @@
     animation: rise .85s var(--ease) backwards;
     animation-delay: calc((var(--b, 0) + var(--s, 0)) * 50ms + var(--in, 0ms));
   }
-  section.slide.active .cover::before { animation: rise .85s var(--ease) var(--in, 0ms) backwards; }
+  section.slide.active .cover-left::before { animation: rise .85s var(--ease) var(--in, 0ms) backwards; }
   /* The old slide lifts out of the layout and flows away underneath the new one */
   section.slide.active .hub-map .hub { animation: bloom .85s var(--ease) var(--in, 0ms) backwards; }
   section.slide.active .seg { animation: sweep .95s var(--ease) backwards; animation-delay: calc(var(--i) * 70ms + var(--in, 0ms)); }
-  section.slide.active .ring-guide { animation: dim-in .8s var(--ease) calc(.5s + var(--in, 0ms)) backwards; }
+  section.slide.active .ring-arrows { animation: dim-in .8s var(--ease) calc(.5s + var(--in, 0ms)) backwards; }
   section.slide.leaving .seg { animation: sweep-out .34s var(--ease-in) forwards; animation-delay: calc(var(--i) * 18ms); }
-  section.slide.leaving .ring-guide { animation: dim-out .2s var(--ease-in) forwards; }
+  section.slide.leaving .ring-arrows { animation: dim-out .2s var(--ease-in) forwards; }
   section.slide.leaving { display: flex; position: absolute; top: 0; left: 0; right: 0; min-height: 100%; pointer-events: none; }
   section.slide.active { position: relative; z-index: 1; }
   section.slide.leaving :is(h1, h2, .lede, .sub-h, .card, .callout, blockquote.msg, .outcome, .eq-item, .eq-op, .layer, .gov, .stat, .cred-main, .qs, .theme, .hub-caption, .node, .hub, .focus, .hub-start) {
     animation: leave .34s var(--ease-in) forwards;
     animation-delay: calc((var(--b, 0) + var(--s, 0)) * 16ms);
   }
-  section.slide.leaving .cover::before { animation: leave .34s var(--ease-in) forwards; }
+  section.slide.leaving .cover-left::before { animation: leave .34s var(--ease-in) forwards; }
   /* ---------- Responsive ---------- */
   @media (max-width: 1600px) {
     .brand .name { display: none; }
@@ -542,10 +537,8 @@
 <section class="slide" data-tab="Agenda" data-num="">
   <div class="wrap">
     <div class="cover">
-      <h1>Talent Nexus</h1>
-      <p class="lede">An agentic talent strategy platform that enables businesses to rapidly develop talent strategy and transform their workforce.</p>
-
-      <p class="sub-h">What this briefing covers</p>
+      <div class="cover-left"><h1>Talent Nexus</h1><p class="lede">An agentic talent strategy platform that enables businesses to rapidly develop talent strategy and transform their workforce.</p></div>
+      <div class="cover-right"><p class="sub-h">What this briefing covers</p>
       <div class="agenda">
         <div class="theme" data-go="1"><div class="k">1</div><div><b>The Opportunity for Grant Thornton</b><span>Where value is unlocked and why now.</span></div></div>
         <div class="theme" data-go="2"><div class="k">2</div><div><b>Outcomes for Clients</b><span>Value the platform delivers for clients.</span></div></div>
@@ -553,6 +546,7 @@
         <div class="theme" data-go="4"><div class="k">4</div><div><b>Technical Vision</b><span>Core technical components and structure.</span></div></div>
         <div class="theme" data-go="5"><div class="k">5</div><div><b>Credentials</b><span>The Civil Environment Navigator&nbsp;| Global Shipping Firm solution.</span></div></div>
         <div class="theme" data-go="6"><div class="k">6</div><div><b>Path Forward and Decisions</b><span>What must be true and next actions required.</span></div></div>
+      </div>
       </div>
     </div>
   </div>
@@ -564,7 +558,9 @@
     <h2>A strategic opportunity to grow the talent strategy offering and get to transformation outcomes earlier</h2>
     <p class="lede">Talent Nexus is a growth lever, not just a delivery tool. It opens new markets, strengthens the client value proposition, and makes engagements faster to stand up, deliver and scale.</p>
 
-    <div class="grid g4" style="margin-top:28px">
+    <div class="callout"><b>Why now:</b> every consulting firm will need agentic workbenches to compete. The question is whether to lead or follow.</div>
+
+    <div class="grid g4" style="margin-top:var(--gap)">
       <div class="card opp">
         <div class="icon"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg></div>
         <h3>Speed to value</h3>
@@ -586,8 +582,6 @@
         <p>Build on the assets, methods and strategies already in place instead of duplicating them.</p>
       </div>
     </div>
-
-    <div class="callout"><b>Why now:</b> every consulting firm will need agentic workbenches to compete. The question is whether to lead or follow.</div>
   </div>
 </section>
 
@@ -623,7 +617,7 @@
 
     <div class="hub-map">
       <svg class="ring" viewBox="0 0 440 440" role="group" aria-label="Talent strategy modules">
-        <g class="ring-guide"><circle cx="220" cy="220" r="130"></circle><g class="ring-dot"><circle cx="220" cy="90" r="3.5"></circle></g></g>
+        <g class="ring-arrows"><path class="ring-arrow" data-i="1" d="M161.5 118.68L149.5 97.89M148.42 106.02L149.5 97.89L157.08 101.02"></path><path class="ring-arrow" data-i="2" d="M278.5 118.68L290.5 97.89M282.92 101.02L290.5 97.89L291.58 106.02"></path><path class="ring-arrow" data-i="3" d="M337 220L361 220M354.5 215L361 220L354.5 225"></path><path class="ring-arrow" data-i="4" d="M278.5 321.32L290.5 342.11M291.58 333.98L290.5 342.11L282.92 338.98"></path><path class="ring-arrow" data-i="5" d="M161.5 321.32L149.5 342.11M157.08 338.98L149.5 342.11L148.42 333.98"></path><path class="ring-arrow" data-i="6" d="M103 220L79 220M85.5 225L79 220L85.5 215"></path></g>
         <g class="seg" data-i="1" style="--i:0" role="button" tabindex="0" aria-label="Diagnose &amp; baseline the current state"><path d="M63.21 125.63Q55.5 120.99 60.32 113.39A192 192 0 0 1 207.51 28.41Q216.5 28.03 216.66 37.03L216.29 63.04Q216.5 72.04 207.51 72.53A148 148 0 0 0 98.53 135.45Q93.61 142.99 85.93 138.31Z" fill="#1b3142"></path><g class="seg-ic"><svg x="123" y="60.78" width="24" height="24" viewBox="0 0 256 256" fill="#fff"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></g></g>
         <g class="seg" data-i="2" style="--i:1" role="button" tabindex="0" aria-label="Model the future state"><path d="M223.34 37.03Q223.5 28.03 232.49 28.41A192 192 0 0 1 379.68 113.39Q384.5 120.99 376.79 125.63L354.07 138.31Q346.39 142.99 341.47 135.45A148 148 0 0 0 232.49 72.53Q223.5 72.04 223.71 63.04Z" fill="#223c4e"></path><g class="seg-ic"><svg x="293" y="60.78" width="24" height="24" viewBox="0 0 256 256" fill="#fff"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></g></g>
         <g class="seg" data-i="3" style="--i:2" role="button" tabindex="0" aria-label="Right-size and redesign the organization"><path d="M380.12 131.4Q388 127.05 392.17 135.02A192 192 0 0 1 392.17 304.98Q388 312.95 380.12 308.6L357.78 295.26Q349.89 290.95 353.96 282.92A148 148 0 0 0 353.96 157.08Q349.89 149.05 357.78 144.74Z" fill="#29465b"></path><g class="seg-ic"><svg x="378" y="208" width="24" height="24" viewBox="0 0 256 256" fill="#fff"><path d="M160,112h48a16,16,0,0,0,16-16V48a16,16,0,0,0-16-16H160a16,16,0,0,0-16,16V64H128a24,24,0,0,0-24,24v32H72v-8A16,16,0,0,0,56,96H24A16,16,0,0,0,8,112v32a16,16,0,0,0,16,16H56a16,16,0,0,0,16-16v-8h32v32a24,24,0,0,0,24,24h16v16a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V160a16,16,0,0,0-16-16H160a16,16,0,0,0-16,16v16H128a8,8,0,0,1-8-8V88a8,8,0,0,1,8-8h16V96A16,16,0,0,0,160,112ZM56,144H24V112H56v32Zm104,16h48v48H160Zm0-112h48V96H160Z"/></svg></g></g>
@@ -688,12 +682,10 @@
       <div>
         <div class="sub-h" style="margin-top:0">By the numbers</div>
         <div class="stats">
-          <div class="stat"><div class="v">10</div><div class="l">Core capabilities in the product roadmap</div></div>
-          <div class="stat"><div class="v">6</div><div class="l">Workflow stages, from ambition to execution</div></div>
-          <div class="stat"><div class="v">4</div><div class="l">Platform layers, from data to experience</div></div>
           <div class="stat"><div class="v">1</div><div class="l">Common framework, configured for each client</div></div>
-          <div class="stat"><div class="v">12</div><div class="l">Agents in the decision layer</div></div>
-          <div class="stat tbd"><div class="v">#</div><div class="l">HCM systems integrated <span class="muted">(to confirm)</span></div></div>
+          <div class="stat"><div class="v">4</div><div class="l">Platform layers, from data to experience</div></div>
+          <div class="stat"><div class="v">6</div><div class="l">Workflow stages, from ambition to execution</div></div>
+          <div class="stat"><div class="v">30+</div><div class="l">Agents in the decision layer</div></div>
         </div>
       </div>
     </div>
@@ -744,7 +736,7 @@
           <h3>Global Shipping firm - by the numbers</h3>
           <div class="stats" style="margin-top:12px">
             <div class="stat flat"><div class="v">13</div><div class="l">Agents deployed</div></div>
-            <div class="stat flat"><div class="v">32%</div><div class="l">Emergency response rating</div></div>
+            <div class="stat flat"><div class="v">32%<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></div><div class="l">Improvement in emergency response evaluation grade</div></div>
           </div>
         </div>
       </div>
@@ -872,7 +864,7 @@
   }
   function setActive(i) {
     hubMap.querySelectorAll('.is-active').forEach(el => el.classList.remove('is-active'));
-    if (i !== null) { segOf(i).classList.add('is-active'); nodeOf(i).classList.add('is-active'); }
+    if (i !== null) hubMap.querySelectorAll(`[data-i="${i}"]`).forEach(el => el.classList.add('is-active'));
   }
   function fillPanel(i) {
     const n = nodeOf(i);
